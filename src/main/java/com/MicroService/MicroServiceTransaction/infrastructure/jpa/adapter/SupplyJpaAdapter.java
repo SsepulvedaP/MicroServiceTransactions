@@ -7,6 +7,9 @@ import com.MicroService.MicroServiceTransaction.infrastructure.jpa.mapper.Supply
 import com.MicroService.MicroServiceTransaction.infrastructure.jpa.repository.ISupplyRepository;
 import lombok.RequiredArgsConstructor;
 
+import java.time.LocalDateTime;
+import java.util.Optional;
+
 @RequiredArgsConstructor
 public class SupplyJpaAdapter implements ISupplyPersistencePort {
 
@@ -18,5 +21,10 @@ public class SupplyJpaAdapter implements ISupplyPersistencePort {
         SupplyEntity supplyEntity = supplyEntityMapper.toSupplyEntity(supply);
         supplyRepository.save(supplyEntity);
 
+    }
+
+    @Override
+    public Optional<LocalDateTime> findLastSupplyDateByProductId(Long productId) {
+        return supplyRepository.findLastSupplyDateByProductId(productId);
     }
 }

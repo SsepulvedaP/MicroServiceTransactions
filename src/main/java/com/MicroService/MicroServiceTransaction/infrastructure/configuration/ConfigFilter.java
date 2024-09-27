@@ -16,6 +16,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import static com.MicroService.MicroServiceTransaction.utils.Constants.AUX_BODEGA_ROL;
+import static com.MicroService.MicroServiceTransaction.utils.Constants.ROLE_CLIENT;
 
 @Configuration
 @EnableWebSecurity

@@ -27,4 +27,9 @@ public class SupplyHandler implements ISupplyHandler {
         supplyServicePort.saveSupply(supply, token);
     }
 
+    @Override
+    public LocalDateTime nextSupplyDate(Long productId) {
+        return supplyServicePort.nextSupplyDate(productId);
+    }
+
 }
