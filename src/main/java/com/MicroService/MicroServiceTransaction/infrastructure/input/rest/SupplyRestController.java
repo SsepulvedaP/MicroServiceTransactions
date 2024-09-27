@@ -15,6 +15,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+
 import static com.MicroService.MicroServiceTransaction.utils.Constants.AUTH_TOKEN;
 
 @RestController
@@ -42,5 +44,18 @@ public class SupplyRestController {
             supplyHandler.saveSupply(supplyRequest, userId, token);
             return ResponseEntity.status(HttpStatus.CREATED).build();
 
+    }
+
+    @Operation(summary = "Obtener la última fecha de suministro de un producto",
+            description = "Obtiene la fecha de la última reposición (supply) del producto por ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Fecha de suministro obtenida exitosamente"),
+            @ApiResponse(responseCode = "404", description = "Producto no encontrado o sin registros de suministro"),
+            @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
+    @GetMapping("/last-supply/{productId}")
+    public ResponseEntity<LocalDateTime> getLastSupplyDate(@PathVariable Long productId) {
+        LocalDateTime nextSupplyDate = supplyHandler.nextSupplyDate(productId);
+        return ResponseEntity.ok(nextSupplyDate);
     }
 }
