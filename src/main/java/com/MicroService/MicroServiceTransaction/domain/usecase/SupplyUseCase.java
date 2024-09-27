@@ -1,6 +1,7 @@
 package com.MicroService.MicroServiceTransaction.domain.usecase;
 
 import com.MicroService.MicroServiceTransaction.domain.api.ISupplyServicePort;
+import com.MicroService.MicroServiceTransaction.domain.exception.SupplyDateException;
 import com.MicroService.MicroServiceTransaction.domain.exception.WrongQuantity;
 import com.MicroService.MicroServiceTransaction.domain.models.Supply;
 import com.MicroService.MicroServiceTransaction.domain.spi.IProductPersistencePort;
@@ -8,6 +9,7 @@ import com.MicroService.MicroServiceTransaction.domain.spi.ISecurityPersistenceP
 import com.MicroService.MicroServiceTransaction.domain.spi.ISupplyPersistencePort;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import static com.MicroService.MicroServiceTransaction.utils.Constants.MIN_QUANTITY;
 import static com.MicroService.MicroServiceTransaction.utils.Constants.WRONG_QUANTITY;
@@ -40,6 +42,17 @@ public class SupplyUseCase implements ISupplyServicePort {
 
         supplyPersistencePort.saveSupply(supply);
         productPersistencePort.updateProductQuantity(supply.getProductId(), supply.getQuantity());
+    }
+
+    @Override
+    public LocalDateTime nextSupplyDate(Long productId) {
+        Optional<LocalDateTime> lastSupplyDate = supplyPersistencePort.findLastSupplyDateByProductId(productId);
+        LocalDateTime nextSupplyDate;
+        if (lastSupplyDate.isEmpty()) {
+            throw new SupplyDateException("No hay fechas de suministro para este producto");
+        }
+        nextSupplyDate = lastSupplyDate.get().plusMonths(1);
+        return nextSupplyDate;
     }
 }
 
