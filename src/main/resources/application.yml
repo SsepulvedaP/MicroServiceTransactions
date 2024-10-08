@@ -1,12 +1,17 @@
 server:
   port: 8080
 
-SECRET_KEY: "294A404E635266556A586E327235753878214125442A472D4B6150645367566B"
+jwt:
+  secret: "294A404E635266556A586E327235753878214125442A472D4B6150645367566B"
 
 feign:
   client:
     product-service:
       url: http://localhost:9090
+    shopping-cart-service:
+      url: http://localhost:9095
+    report-service:
+      url: http://localhost:9096
 
 spring:
   datasource:

@@ -18,6 +18,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import static com.MicroService.MicroServiceTransaction.utils.Constants.AUX_BODEGA_ROL;
 import static com.MicroService.MicroServiceTransaction.utils.Constants.ROLE_CLIENT;
 
+
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -34,6 +35,7 @@ public class ConfigFilter {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/auth/**").permitAll()
                         .requestMatchers(HttpMethod.POST,"/supply/**").hasRole(AUX_BODEGA_ROL)
+                        .requestMatchers("/sale/**").hasAuthority(ROLE_CLIENT)
                         .anyRequest().permitAll()
                 )
                 .sessionManagement(sessionManagement ->

@@ -8,7 +8,9 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface SupplyEntityMapper {
-    @Mapping(source = "productId", target = "productId")
+    @Mapping(target = "productId", source = "productId")
+    @Mapping(target = "quantity", source = "quantity")
+    @Mapping(target = "date", source = "date")
     SupplyEntity toSupplyEntity(Supply supply);
 
 }
